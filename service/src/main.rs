@@ -9,9 +9,9 @@ struct Simstore{
 type Result<T> = std::result::Result<T, String>;
 
 impl Simstore {
-    pub fn new(ctx: &Context) -> Self {
+    pub fn new(ctx: &Context, secret: String) -> Self {
         Self{
-            secret: "000".to_string(),
+            secret: secret.to_string(),
             admin: ctx.sender(),
         }
     }

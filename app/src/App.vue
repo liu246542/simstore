@@ -4,6 +4,9 @@
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
     <simstore quto="Test Case #1" name="张三"/>
     <simstore quto="Test Case #2" name="李四"/>
+    <p>
+      A!!!
+    </p>
   </div>
 </template>
 
@@ -15,8 +18,17 @@ export default {
   name: 'app',
   components: {
     simstore
-  }
+  }  
 }
+
+// import oasis from '@oasislabs/client';
+// let gateway = oasis.gateway.Gateway(
+//   'ws://localhost:8546',
+//   oasis.Wallet.fromMnemonic('range drive remove bleak mule satisfy mandate east lion minimum unfold ready'),
+//   );
+// oasis.setGateway(gateway);
+
+
 </script>
 
 <style>
