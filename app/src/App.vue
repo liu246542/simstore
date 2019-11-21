@@ -1,23 +1,40 @@
 <template>
   <div id="app">
-    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-    <simstore quto="Test Case #1" name="张三"/>
-    <simstore quto="Test Case #2" name="李四"/>
-    <p>
-      A!!!
-    </p>
+    <h1>DEMO</h1>
+
+    <!-- <v-row>
+      <v-col class="sender" :xs="24" :sm="12" :md="12" :lg="12">
+        <h3> Sender </h3>
+      </v-col>
+
+      <v-col class="sender" :xs="24" :sm="12" :md="12" :lg="12">
+        <h3> Receiver </h3>
+      </v-col>
+
+    </v-row> -->
+
+    
+
+      <sender name="Sender"/>
+      <sender name="Receiver"/>
+      
+    
+    
+    
+    <!-- <simstore quto="Test Case #2" name="李四"/> -->
   </div>
 </template>
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
-import simstore from './components/simstore.vue'
+// import simstore from './components/simstore.vue'
+import sender from './components/sender.vue'
 
 export default {
   name: 'app',
   components: {
-    simstore
+    // simstore
+    sender,
   }  
 }
 

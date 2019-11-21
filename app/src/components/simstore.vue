@@ -4,11 +4,11 @@
     <p>User {{ name }}</p>
     <span>私钥：</span>
     <input v-model="sk">
-    <button v-on:click="connectToOasis">Connect</button>
-    <button v-on:click="deployService">Deploy</button>
+    <v-button v-on:click="connectToOasis">Connect</v-button>
+    <v-button v-on:click="deployService">Deploy</v-button>
     <hr>
-    <button v-on:click="store">Store</button>
-    <button v-on:click="fetch">Fetch</button>
+    <v-button v-on:click="store">Store</v-button>
+    <v-button v-on:click="fetch">Fetch</v-button>
     <p> {{ secret }} </p>
     <p class="danger-region" >It works? {{ sk }}</p>
 

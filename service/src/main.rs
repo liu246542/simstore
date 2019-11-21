@@ -19,7 +19,7 @@ impl Simstore {
     // pub fn say_hello(&self, ctx: &Context) -> String {
     //     format!("Hello, {}!", ctx.sender())
     // }
-    // 
+    //     
     pub fn store(&mut self, _ctx: &Context, secret: String) -> Result<()> {
         self.secret = secret;
         Ok(())
