@@ -1,99 +1,88 @@
 <template>
   <v-col class="sender" :xs="24" :sm="12" :md="12" :lg="12">
     <h2>{{ name }}</h2>
-    <!-- :xs="24" :sm="12" :md="12" :lg="12" -->
-    <!-- <h3>Sender</h3> -->
-    <!-- <v-icon type="user" slot="before"> </v-icon> -->
     <br/>
     <v-row class="block_message">
-      <v-col span="2" offset="4">
+      <v-col span="1">        
+      </v-col>
+      <v-col span="8">
+        <v-alert type="success" show-icon>
+          Here is some Info
+        </v-alert>
+      </v-col>
+      <v-col span="2">
+        <div class="lines-horizontal">
+        </div>
+      </v-col>
+      <v-col span="2">
         <v-button class="line_button" type="primary" shape="circle" icon="link" v-on:click="connectToOasis"></v-button>
       </v-col>
-      <v-col span="14">
-        <div class="explain_panel">Step 1. Click and establish a connection to local block chain</div>
+      <v-col span="8">
+        <div class="explain_panel">Step 1. Connect</div>
       </v-col>
     </v-row>
 
-    <v-row>
-      <v-col span="2" offset="4">
+    <v-row class="block_message">
+      <v-col span="1">        
+            </v-col>
+            <v-col span="8">
+              <v-alert type="success" show-icon>
+                Here is some Info
+              </v-alert>
+            </v-col>
+            <v-col span="2">
+              <div class="lines-horizontal">
+              </div>
+            </v-col>
+      <v-col span="2">
         <v-button class="line_button" type="primary" shape="circle" icon="cloud-upload-o" v-on:click="deployService"></v-button>
       </v-col>
-      <v-col span="14">
-        <div class="explain_panel">Step 2. Deploy your smart contract</div>
+      <v-col span="8">
+        <div class="explain_panel">Step 2. Deploy</div>
       </v-col>
     </v-row>
 
-    <v-row>
-      <v-col span="2" offset="4">
+    <v-row class="block_message">
+      <v-col span="1">        
+            </v-col>
+            <v-col span="8">
+              <v-alert type="success" show-icon>
+                Here is some Info
+              </v-alert>
+            </v-col>
+            <v-col span="2">
+              <div class="lines-horizontal">
+              </div>
+            </v-col>
+      <v-col span="2">
         <v-button class="line_button" type="primary" shape="circle" icon="save" v-on:click="store"></v-button>
       </v-col>
-      <v-col span="14">
+      <v-col span="8">
         <div class="explain_panel">Step 3. Store</div>
       </v-col>
     </v-row>
 
-    <v-row>
-      <v-col span="2" offset="4">
+    <v-row class="block_message">
+      <v-col span="1">        
+            </v-col>
+            <v-col span="8">
+              <v-alert type="success" show-icon>
+                Here is some Info
+              </v-alert>
+            </v-col>
+            <v-col span="2">
+              <div class="lines-horizontal">
+              </div>
+            </v-col>
+      <v-col span="2">
         <v-button class="line_button" type="primary" shape="circle" icon="download" v-on:click="fetch"></v-button>
       </v-col>
-      <v-col span="14">
-        <div class="explain_panel">Step 3. Fetch</div>
+      <v-col span="8">
+        <div class="explain_panel">Step 4. Fetch</div>
       </v-col>
     </v-row>
 
-
     <br/>
-
-    
-
-
-
-
-    <!-- <v-form direction="horizontal">
-      <v-form-item label="Address" :label-col="labelCol" :wrapper-col="wrapperCol">
-        <span class="ant-form-text">{{ address }}</span>
-      </v-form-item>
-      <v-form-item label="Secret" :label-col="labelCol" :wrapper-col="wrapperCol">
-        <v-input type="textarea" placeholder="please input your secret" :wrapper-col="wrapperCol"></v-input>
-      </v-form-item>
-
-      <v-form-item :label-col="labelCol" :wrapper-col="{offset:6, span:10}">
-        <v-button type="primary" style="margin-right:6px;" v-on:click="connectToOasis">
-          Connect
-        </v-button>
-        <v-button type="default" style="margin-right:6px;" v-on:click="deployService">
-          Deploy
-        </v-button>
-      </v-form-item>
-
-      <v-form-item :label-col="labelCol" :wrapper-col="{offset:6, span:10}">
-        <v-button type="default" style="margin-right:6px;" v-on:click="store" >
-          Store
-        </v-button>
-        <v-button type="primary" style="margin-right:6px;" v-on:click="fetch" >
-          Fetch
-        </v-button>
-      </v-form-item>
-    </v-form> -->
-
-
-
-    <!-- <span>私钥：</span>
-    <input v-model="sk">
-    <v-button v-on:click="connectToOasis">Connect</v-button>
-    <v-button v-on:click="deployService">Deploy</v-button>
-    <hr>
-    <v-button v-on:click="store">Store</v-button>
-    <v-button v-on:click="fetch">Fetch</v-button>
-    <p> {{ secret }} </p>
-    <p class="danger-region" >It works? {{ sk }}</p>
-
-
-    <span>公钥：</span>
-    <input v-model="pk">
-    <p class="danger-region">It works? {{ pk }}</p>
-
-    <span>SECRET:</span> -->
     
   </v-col>
 </template>
@@ -183,6 +172,31 @@ export default {
   padding: 20px;
   position: relative;
 }
+.explain_panel:before {
+    border-bottom: 10px solid transparent;
+    border-left: 0px solid #ccc;
+    border-right: 10px solid #ccc;
+    border-top: 10px solid transparent;
+    content: " ";
+    display: inline-block;
+    position: absolute;
+    left: -10px;
+    right: auto;
+    top: 10px;
+}
+.explain_panel:after {
+    border-bottom: 9px solid transparent;
+    border-left: 0 solid #fff;
+    border-right: 9px solid #fff;
+    border-top: 9px solid transparent;
+    content: " ";
+    display: inline-block;
+    position: absolute;
+    left: -9px;
+    right: auto;
+    top: 11px;
+}
+
 .line_button {
   position: relative;
   top: 15px;
@@ -190,4 +204,12 @@ export default {
 .block_message {
   margin-bottom: 10px;
 }
+
+.lines-horizontal {
+  position: relative;
+  top: 25px;
+  border-top: 1px dashed black;
+  left: 10px;
+}
+
 </style>
