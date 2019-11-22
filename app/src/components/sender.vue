@@ -1,84 +1,87 @@
 <template>
-  <v-col class="sender" :xs="24" :sm="12" :md="12" :lg="12">
-    <h2>{{ name }}</h2>
+  <v-col class="sender" :xs="24" :sm="24" :md="12" :lg="12">
+    <h1>{{ name }}</h1>
     <br/>
     <v-row class="block_message">
-      <v-col span="1">        
-      </v-col>
-      <v-col span="8">
-        <v-alert type="success" show-icon>
-          Here is some Info
-        </v-alert>
-      </v-col>
-      <v-col span="2">
-        <div class="lines-horizontal">
-        </div>
-      </v-col>
-      <v-col span="2">
-        <v-button class="line_button" type="primary" shape="circle" icon="link" v-on:click="connectToOasis"></v-button>
+      <v-col span="3">
       </v-col>
       <v-col span="8">
         <div class="explain_panel">Step 1. Connect</div>
       </v-col>
+      <v-col span="2">
+        <v-button class="line_button" type="primary" shape="circle" icon="link" v-on:click="connectToOasis"></v-button>
+      </v-col>
+      <v-col span="2">
+        <div v-if="flag_connect" class="lines-horizontal">
+        </div>
+      </v-col>
+      <v-col span="8">
+        <v-alert v-if="flag_connect" type="success" show-icon>
+          Connected to <u>{{ local_gateway }}</u>
+        </v-alert>
+      </v-col>
+      
     </v-row>
 
     <v-row class="block_message">
-      <v-col span="1">        
-            </v-col>
-            <v-col span="8">
-              <v-alert type="success" show-icon>
-                Here is some Info
-              </v-alert>
-            </v-col>
-            <v-col span="2">
-              <div class="lines-horizontal">
-              </div>
-            </v-col>
-      <v-col span="2">
-        <v-button class="line_button" type="primary" shape="circle" icon="cloud-upload-o" v-on:click="deployService"></v-button>
+      <v-col span="3">
       </v-col>
       <v-col span="8">
         <div class="explain_panel">Step 2. Deploy</div>
       </v-col>
+      <v-col span="2">
+        <v-button class="line_button" type="primary" shape="circle" icon="cloud-upload-o" v-on:click="deployService"></v-button>
+      </v-col>
+      <v-col span="2">
+        <div v-if="flag_deploy" class="lines-horizontal">
+        </div>
+      </v-col>
+      <v-col span="8">
+        <v-alert v-if="flag_deploy" type="success" show-icon>
+          Deploy at <u>{{ address }}</u>
+        </v-alert>
+      </v-col>
+      
     </v-row>
 
     <v-row class="block_message">
-      <v-col span="1">        
-            </v-col>
-            <v-col span="8">
-              <v-alert type="success" show-icon>
-                Here is some Info
-              </v-alert>
-            </v-col>
-            <v-col span="2">
-              <div class="lines-horizontal">
-              </div>
-            </v-col>
+      <v-col span="3">
+      </v-col>
+      <v-col span="8">
+        <div class="explain_panel">Step 3. Store<v-input v-model="store_secret" type="textarea" placeholder="Please enter the message you need to store in the blockchain"></v-input></div>
+
+      </v-col>
       <v-col span="2">
         <v-button class="line_button" type="primary" shape="circle" icon="save" v-on:click="store"></v-button>
       </v-col>
-      <v-col span="8">
-        <div class="explain_panel">Step 3. Store</div>
+      <v-col span="2">
+        <div v-if="flag_upload" class="lines-horizontal">
+        </div>
       </v-col>
+      <v-col span="8">
+        <v-alert v-if="flag_upload" type="success" show-icon>
+          Store successfully!
+        </v-alert>
+      </v-col>      
     </v-row>
 
     <v-row class="block_message">
-      <v-col span="1">        
-            </v-col>
-            <v-col span="8">
-              <v-alert type="success" show-icon>
-                Here is some Info
-              </v-alert>
-            </v-col>
-            <v-col span="2">
-              <div class="lines-horizontal">
-              </div>
-            </v-col>
-      <v-col span="2">
-        <v-button class="line_button" type="primary" shape="circle" icon="download" v-on:click="fetch"></v-button>
+      <v-col span="3">        
       </v-col>
       <v-col span="8">
         <div class="explain_panel">Step 4. Fetch</div>
+      </v-col>
+      <v-col span="2">
+        <v-button class="line_button" type="primary" shape="circle" icon="download" v-on:click="fetch"></v-button>
+      </v-col>
+      <v-col span="2">
+        <div v-if="fetch_result" class="lines-horizontal">
+        </div>
+      </v-col>      
+      <v-col span="8">
+        <v-alert v-if="fetch_result" type="success" show-icon>
+          Result is <u>{{ fetch_result }}</u>
+        </v-alert>
       </v-col>
     </v-row>
 
@@ -107,16 +110,22 @@ export default {
       sk: null,
       pk: null,
       bytecode: 'simstore.wasm',
-      flag_connect: null,
+      flag_connect: false,
+      flag_deploy: false,
+      flag_upload: false,
+      fetch_result: false,
       deployLocally: process.env.NODE_ENV === 'development',
       blackbox: null,
       secret: 'no secret',
       address: null,
+      local_gateway: 'ws://10.20.9.237:8546'
     }
   },
   methods: {
     async connectToOasis() {
-      let gateway = new oasis.gateways.Web3Gateway('ws://localhost:8546', oasis.Wallet.fromMnemonic('range drive remove bleak mule satisfy mandate east lion minimum unfold ready'));
+      let gateway = new oasis.gateways.Web3Gateway(
+        this.local_gateway,
+        oasis.Wallet.fromMnemonic('range drive remove bleak mule satisfy mandate east lion minimum unfold ready'));
       oasis.setGateway(gateway);
       this.flag_connect = true;
     },
@@ -139,6 +148,7 @@ export default {
       });
 
       this.blackbox = blackbox;
+      this.flag_deploy = true;
       this.address = blackbox.address.hex;
     },
 
@@ -152,11 +162,13 @@ export default {
     },
 
     async store(){
-      this.blackbox.store('this works!@@@');
+      this.blackbox.store(this.store_secret?this.store_secret:"no secret");
+      this.flag_upload = true;
     },
 
     async fetch(){
-      this.secret = await this.blackbox.fetch();
+      // this.secret = await this.blackbox.fetch();
+      this.fetch_result = await this.blackbox.fetch();
     }
 
   }
@@ -168,32 +180,33 @@ export default {
   font-size: 14px;
   border: 2px;
   border: 1px solid #d4d4d4;
+  border-radius: 10px;
   /*margin-left: 100px;*/
   padding: 20px;
   position: relative;
 }
 .explain_panel:before {
     border-bottom: 10px solid transparent;
-    border-left: 0px solid #ccc;
-    border-right: 10px solid #ccc;
+    border-left: 10px solid #ccc;
+    border-right: 0px solid #ccc;
     border-top: 10px solid transparent;
     content: " ";
     display: inline-block;
     position: absolute;
-    left: -10px;
-    right: auto;
+    left: auto;
+    right: -10px;
     top: 10px;
 }
 .explain_panel:after {
     border-bottom: 9px solid transparent;
-    border-left: 0 solid #fff;
-    border-right: 9px solid #fff;
+    border-left: 9px solid #fff;
+    border-right: 0 solid #fff;
     border-top: 9px solid transparent;
     content: " ";
     display: inline-block;
     position: absolute;
-    left: -9px;
-    right: auto;
+    left: auto;
+    right: -9px;
     top: 11px;
 }
 
@@ -202,14 +215,17 @@ export default {
   top: 15px;
 }
 .block_message {
-  margin-bottom: 10px;
+  margin-bottom: 30px;
 }
 
 .lines-horizontal {
   position: relative;
   top: 25px;
   border-top: 1px dashed black;
-  left: 10px;
+  left: -10px;
+}
+.ant-alert {
+  overflow: auto;
 }
 
 </style>
