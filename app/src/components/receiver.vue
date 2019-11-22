@@ -48,7 +48,7 @@
       <v-col span="3">        
       </v-col>
       <v-col span="8">
-        <div class="explain_panel">Step 3. Fetch</div>
+        <div class="explain_panel">Step 3. Fetch<v-input v-model="public_value" type="text" placeholder="Please input the public value"></v-input></div>
       </v-col>
       <v-col span="2">
         <v-button class="line_button" type="primary" shape="circle" icon="download" v-on:click="fetch"></v-button>
@@ -114,7 +114,9 @@ export default {
 
     async fetch(){
       // this.secret = await this.blackbox.fetch();
-      this.fetch_result = await this.blackbox.fetch();
+      const sss = require('shamirs-secret-sharing');
+      const temp_buff = await this.blackbox.fetch();
+      this.fetch_result= sss.combine([new Buffer(this.public_value, 'hex'), new Buffer(temp_buff, 'hex')]);
     }
 
   }

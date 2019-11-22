@@ -60,7 +60,7 @@
       </v-col>
       <v-col span="8">
         <v-alert v-if="flag_upload" type="success" show-icon>
-          Store successfully!
+          Store successfully! Public value is <v-input :value="public_value"></v-input>
         </v-alert>
       </v-col>      
     </v-row>
@@ -117,6 +117,7 @@ export default {
       deployLocally: process.env.NODE_ENV === 'development',
       blackbox: null,
       secret: 'no secret',
+      public_value: '',
       address: null,
       local_gateway: 'ws://10.20.9.237:8546'
     }
@@ -153,23 +154,21 @@ export default {
       this.address = blackbox.address.hex;
     },
 
-    async loadService(address) {
-      // 还是需要先连接
-      if(!this.flag_connect){
-        await this.connectToOasis();
-      }
-      const blackbox = await oasis.Service.at(new oasis.Address(address));
-      this.blackbox = blackbox;
-    },
-
     async store(){
-      this.blackbox.store(this.store_secret?this.store_secret:"no secret");
+      const sss = require('shamirs-secret-sharing');
+      this.secret = sss.split(this.store_secret?this.store_secret:"no secret", {shares: 3, threshold: 2});
+      this.blackbox.store(this.secret[0].toString('hex'));
+      this.public_value = this.secret[1].toString('hex');
       this.flag_upload = true;
     },
 
     async fetch(){
+      const sss = require('shamirs-secret-sharing');
       // this.secret = await this.blackbox.fetch();
-      this.fetch_result = await this.blackbox.fetch();
+      const hint = await this.blackbox.fetch();
+      // window.console.log(hint);
+      // window.console.log(this.secret[0].toString('base64'));
+      this.fetch_result = sss.combine([this.secret[1], new Buffer(hint, 'hex')]);
     }
 
   }

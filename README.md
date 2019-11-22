@@ -1,6 +1,21 @@
 # simstore
 
+---
+
+## To-do
+
+- [x] Deployed at local chain
+- [x] Secret Sharing implementation
+- [ ] Deployed at public chain
+- [ ] Fix bugs
+
 ## Usage
+
+**Install the Oasis Toolchain**
+
+```{Shell}
+curl --proto '=https' --tlsv1.2 -sSL https://get.oasis.dev | python
+```
 
 **Compile**
 

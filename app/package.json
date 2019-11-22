@@ -10,6 +10,7 @@
   "dependencies": {
     "@oasislabs/client": "^1.0.0-rc.28",
     "core-js": "^3.3.2",
+    "shamirs-secret-sharing": "^1.0.1",
     "vue": "^2.6.10",
     "vue-beauty": "^2.0.0-beta.19"
   },

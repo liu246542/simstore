@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <h1>垃圾代码代工厂</h1>
-    <center>专注生产垃圾一百年</center>
+    <h1>DEMO #1</h1>
+    <center>Secret Sharing via block chain</center>
     <br/>
     <hr/>
     <br/>
@@ -22,7 +22,7 @@ export default {
   components: {
     sender,
     receiver,
-  }  
+  },
 }
 
 </script>
