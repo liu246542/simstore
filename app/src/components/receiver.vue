@@ -1,5 +1,5 @@
 <template>
-  <v-col class="sender" :xs="24" :sm="24" :md="24" :lg="12">
+  <v-col class="receiver" :xs="24" :sm="24" :md="24" :lg="12">
     <h1>{{ name }}</h1>
     <br/>
     <v-row class="block_message">
@@ -27,49 +27,28 @@
       <v-col span="3">
       </v-col>
       <v-col span="8">
-        <div class="explain_panel">Step 2. Deploy</div>
+        <div class="explain_panel">Step 2. Load<v-input v-model="block_address" type="text" placeholder="Please input the address"></v-input></div>
       </v-col>
       <v-col span="2">
-        <v-button class="line_button" type="primary" shape="circle" icon="cloud-upload-o" v-on:click="deployService"></v-button>
+        <v-button class="line_button" type="primary" shape="circle" icon="reload" v-on:click="loadService"></v-button>
       </v-col>
       <v-col span="2">
-        <div v-if="flag_deploy" class="lines-horizontal">
+        <div v-if="flag_load" class="lines-horizontal">
         </div>
       </v-col>
       <v-col span="8">
-        <v-alert v-if="flag_deploy" type="success" show-icon>
-          Deploy at <u>{{ address }}</u>
+        <v-alert v-if="flag_load" type="success" show-icon>
+          Load at <u>{{ block_address }}</u>
         </v-alert>
       </v-col>
       
     </v-row>
 
     <v-row class="block_message">
-      <v-col span="3">
-      </v-col>
-      <v-col span="8">
-        <div class="explain_panel">Step 3. Store<v-input v-model="store_secret" type="textarea" placeholder="Please enter the message you need to store in the blockchain"></v-input></div>
-
-      </v-col>
-      <v-col span="2">
-        <v-button class="line_button" type="primary" shape="circle" icon="save" v-on:click="store"></v-button>
-      </v-col>
-      <v-col span="2">
-        <div v-if="flag_upload" class="lines-horizontal">
-        </div>
-      </v-col>
-      <v-col span="8">
-        <v-alert v-if="flag_upload" type="success" show-icon>
-          Store successfully!
-        </v-alert>
-      </v-col>      
-    </v-row>
-
-    <v-row class="block_message">
       <v-col span="3">        
       </v-col>
       <v-col span="8">
-        <div class="explain_panel">Step 4. Fetch</div>
+        <div class="explain_panel">Step 3. Fetch</div>
       </v-col>
       <v-col span="2">
         <v-button class="line_button" type="primary" shape="circle" icon="download" v-on:click="fetch"></v-button>
@@ -95,23 +74,16 @@
 import oasis from '@oasislabs/client';
 
 export default {
-  name: 'sender',
+  name: 'receiver',
   props: {
     name: String,
   },
   data () {
     return {
-      labelCol: {
-        span: 6
-      },
-      wrapperCol: {
-        span: 10
-      },
       sk: null,
       pk: null,
-      bytecode: 'simstore.wasm',
       flag_connect: false,
-      flag_deploy: false,
+      flag_load: false,
       flag_upload: false,
       fetch_result: false,
       deployLocally: process.env.NODE_ENV === 'development',
@@ -128,43 +100,16 @@ export default {
         oasis.Wallet.fromMnemonic('range drive remove bleak mule satisfy mandate east lion minimum unfold ready'));
       oasis.setGateway(gateway);
       this.flag_connect = true;
-    },
+    },    
 
-    async deployService() {
-      if(!this.flag_connect){
-        await this.connectToOasis();
-      }
-      const bytecode = await fetch(this.bytecode).then((response) => response.body)
-      .then((stream) => new Response(stream))
-      .then(async (response) => {
-        const serviceBinary = await response.arrayBuffer();
-        return new Uint8Array(serviceBinary);
-      });
-
-      const blackbox =  await oasis.deploy('hello world!',{
-        bytecode,
-        // header: { confidential: !this.deployLocally },
-        header: { confidential: false },
-        gasLimit: '0xf42400'
-      });
-
-      this.blackbox = blackbox;
-      this.flag_deploy = true;
-      this.address = blackbox.address.hex;
-    },
-
-    async loadService(address) {
+    async loadService() {
       // 还是需要先连接
       if(!this.flag_connect){
         await this.connectToOasis();
       }
-      const blackbox = await oasis.Service.at(new oasis.Address(address));
+      const blackbox = await oasis.Service.at(new oasis.Address(this.block_address));
       this.blackbox = blackbox;
-    },
-
-    async store(){
-      this.blackbox.store(this.store_secret?this.store_secret:"no secret");
-      this.flag_upload = true;
+      this.flag_load = true;
     },
 
     async fetch(){
