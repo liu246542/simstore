@@ -37,6 +37,7 @@ export default {
   margin-top: 60px;
 }
 .explain_panel {
+  font-weight: bold;
   font-size: 14px;
   border: 2px;
   border: 1px solid #d4d4d4;
@@ -69,7 +70,6 @@ export default {
     right: -9px;
     top: 11px;
 }
-
 .line_button {
   position: relative;
   top: 15px;
@@ -85,6 +85,7 @@ export default {
   left: -10px;
 }
 .ant-alert {
+  font-size: 14px;
   overflow: auto;
 }
 </style>

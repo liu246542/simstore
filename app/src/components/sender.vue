@@ -107,19 +107,18 @@ export default {
       wrapperCol: {
         span: 10
       },
-      sk: null,
-      pk: null,
       bytecode: 'simstore.wasm',
       flag_connect: false,
       flag_deploy: false,
       flag_upload: false,
       fetch_result: false,
       deployLocally: process.env.NODE_ENV === 'development',
+      store_secret: '',
       blackbox: null,
       secret: 'no secret',
       public_value: '',
       address: null,
-      local_gateway: 'ws://10.20.9.237:8546'
+      local_gateway: 'ws://localhost:8546'
     }
   },
   methods: {

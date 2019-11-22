@@ -48,7 +48,7 @@
       <v-col span="3">        
       </v-col>
       <v-col span="8">
-        <div class="explain_panel">Step 3. Fetch<v-input v-model="public_value" type="text" placeholder="Please input the public value"></v-input></div>
+        <div class="explain_panel">Step 3. Recover<v-input v-model="public_value" type="text" placeholder="Please input the public value"></v-input></div>
       </v-col>
       <v-col span="2">
         <v-button class="line_button" type="primary" shape="circle" icon="download" v-on:click="fetch"></v-button>
@@ -89,8 +89,10 @@ export default {
       deployLocally: process.env.NODE_ENV === 'development',
       blackbox: null,
       secret: 'no secret',
+      block_address: null,
       address: null,
-      local_gateway: 'ws://10.20.9.237:8546'
+      public_value: null,
+      local_gateway: 'ws://localhost:8546'
     }
   },
   methods: {
@@ -103,7 +105,6 @@ export default {
     },    
 
     async loadService() {
-      // 还是需要先连接
       if(!this.flag_connect){
         await this.connectToOasis();
       }

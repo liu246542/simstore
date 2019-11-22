@@ -8,6 +8,7 @@
 - [x] Secret Sharing implementation
 - [ ] Deployed at public chain
 - [ ] Fix bugs
+- [ ] logs
 
 ## Usage
 
