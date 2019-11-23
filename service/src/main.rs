@@ -16,13 +16,9 @@ impl Simstore {
         }
     }
 
-    // pub fn say_hello(&self, ctx: &Context) -> String {
-    //     format!("Hello, {}!", ctx.sender())
-    // }
-    //     
-    pub fn store(&mut self, _ctx: &Context, secret: String) -> Result<()> {
+    pub fn store(&mut self, _ctx: &Context, secret: String) -> Result<(String)> {
         self.secret = secret;
-        Ok(())
+        Ok("OK".to_string())
     }
 
     pub fn fetch(&self, _ctx: &Context) -> &str {
@@ -44,9 +40,9 @@ mod tests {
     fn test() {
         let sender = oasis_test::create_account(1);
         let ctx = Context::default().with_sender(sender);
-        let client = Simstore::new(&ctx);
-        // println!("{}", client.say_hello(&ctx));
-        client.store(&ctx, "123".to_string());
-        println!("{}", client.secret);
+        let mut client = Simstore::new(&ctx, "2333".to_string());
+        println!("{}", client.fetch(&ctx));
+        println!("{:?}", client.store(&ctx, "123".to_string()));
+        println!("{}", client.fetch(&ctx));
     }
 }
