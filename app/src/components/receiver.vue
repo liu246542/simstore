@@ -80,26 +80,27 @@ export default {
   },
   data () {
     return {
-      sk: null,
-      pk: null,
       flag_connect: false,
       flag_load: false,
       flag_upload: false,
       fetch_result: false,
-      deployLocally: process.env.NODE_ENV === 'development',
       blackbox: null,
       secret: 'no secret',
       block_address: null,
       address: null,
       public_value: null,
-      local_gateway: 'ws://localhost:8546'
+      local_gateway: 'ws://localhost:8546',
+      public_gateway: 'https://gateway.devnet.oasiscloud.io',
+      public_credential: '',
     }
   },
   methods: {
     async connectToOasis() {
-      let gateway = new oasis.gateways.Web3Gateway(
-        this.local_gateway,
-        oasis.Wallet.fromMnemonic('range drive remove bleak mule satisfy mandate east lion minimum unfold ready'));
+      const wallet = new oasis.Wallet('0x7ec6102f6a2786c03b3daf6ac4772491f33925902326a0d2d83521b964a87402');
+      const gateway = new oasis.gateways.Web3Gateway(this.local_gateway, wallet);
+      // const headers = new Map();
+      // headers.set('X-OASIS-SESSION-KEY', 'Ssharing-session');
+      // let gateway = new oasis.gateways.Gateway(this.public_gateway, this.public_credential, { headers });
       oasis.setGateway(gateway);
       this.flag_connect = true;
     },    
@@ -114,12 +115,12 @@ export default {
     },
 
     async fetch(){
-      // this.secret = await this.blackbox.fetch();
+      this.secret = await this.blackbox.fetch();
+      // this.fetch_result = await this.blackbox.fetch();      
       const sss = require('shamirs-secret-sharing');
       const temp_buff = await this.blackbox.fetch();
-      this.fetch_result= sss.combine([new Buffer(this.public_value, 'hex'), new Buffer(temp_buff, 'hex')]);
+      this.fetch_result= sss.combine([new Buffer(this.public_value, 'hex'), new Buffer(temp_buff, 'hex')]);      
     }
-
   }
 }
 </script>

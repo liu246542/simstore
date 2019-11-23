@@ -112,20 +112,23 @@ export default {
       flag_deploy: false,
       flag_upload: false,
       fetch_result: false,
-      deployLocally: process.env.NODE_ENV === 'development',
       store_secret: '',
       blackbox: null,
       secret: 'no secret',
       public_value: '',
       address: null,
-      local_gateway: 'ws://localhost:8546'
+      local_gateway: 'ws://localhost:8546',
+      public_gateway: 'https://gateway.devnet.oasiscloud.io',
+      public_credential: '',
     }
   },
   methods: {
     async connectToOasis() {
-      let gateway = new oasis.gateways.Web3Gateway(
-        this.local_gateway,
-        oasis.Wallet.fromMnemonic('range drive remove bleak mule satisfy mandate east lion minimum unfold ready'));
+      const wallet = new oasis.Wallet('0xb5144c6bda090723de712e52b92b4c758d78348ddce9aa80ca8ef51125bfb308');
+      const gateway = new oasis.gateways.Web3Gateway(this.local_gateway, wallet);
+      // const headers = new Map();
+      // headers.set('X-OASIS-SESSION-KEY', 'ballot-session');
+      // let gateway = new oasis.gateways.Gateway(this.public_gateway, this.public_credential, { headers });
       oasis.setGateway(gateway);
       this.flag_connect = true;
     },
@@ -169,7 +172,6 @@ export default {
       // window.console.log(this.secret[0].toString('base64'));
       this.fetch_result = sss.combine([this.secret[1], new Buffer(hint, 'hex')]);
     }
-
   }
 }
 </script>
