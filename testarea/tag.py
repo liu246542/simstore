@@ -63,10 +63,6 @@ class Entity:
       print('Please init a symmetric key')
       raise
 
-      
-    
-
-
 if __name__ == '__main__':
   runsetup = Setup('SS512')
   pk = runsetup.get_pk()
